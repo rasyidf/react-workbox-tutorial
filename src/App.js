@@ -13,7 +13,7 @@ const supabaseFetch = async () => {
     .from('my_set')
     .select('numbers')
     .match({ id: 1 })
-  
+
   console.log(data, error)
   if (data) return data[0].numbers
 }
@@ -22,9 +22,9 @@ const supabaseUpdate = async (value) => {
   console.log(value)
   const { data, error } = await supabase
     .from('my_set')
-    .update({numbers: value})
+    .update({ numbers: value })
     .match({ id: 1 })
-  
+
   console.log(data, error)
 }
 
@@ -32,9 +32,12 @@ function App() {
   const [numbers, setNumbers] = useState([])
   const [input, setInput] = useState('')
 
-  useEffect(async () => {
-    const data = await supabaseFetch()
-    if (data) setNumbers(data)
+  useEffect(() => {
+    async function fetch_data() {
+      const data = await supabaseFetch()
+      if (data) setNumbers(data)
+    }
+    fetch_data()
   }, [])
 
   const handleInput = (e) => {
@@ -52,12 +55,12 @@ function App() {
     <div className="App">
       <div>
         numbers: {numbers.length > 0 && numbers.map((number, index) => {
-            if (index < numbers.length - 1) {
-              return <React.Fragment key={index}>{number}, </React.Fragment>;
-            } else {
-              return <React.Fragment key={index}>{number}</React.Fragment>;
-            }
-          })}
+          if (index < numbers.length - 1) {
+            return <React.Fragment key={index}>{number}, </React.Fragment>;
+          } else {
+            return <React.Fragment key={index}>{number}</React.Fragment>;
+          }
+        })}
       </div>
       <br />
       <div>
